@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MarketGo | Премиальная уходовая косметика</title>
+    <title>MarketGo | Уходовая косметика</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Главный экран -->
     <div id="app" class="app-container">
         <!-- Шапка -->
         <header class="header">
@@ -105,7 +103,6 @@
                 </button>
             </div>
             <div class="cart-content" id="cartContent">
-                <!-- Товары в корзине будут здесь -->
                 <div class="cart-empty">
                     <i class="fas fa-shopping-bag"></i>
                     <p>Ваша корзина пуста</p>
@@ -127,14 +124,14 @@
             <section class="banner-section">
                 <div class="swiper banner-swiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide banner-slide" style="background: linear-gradient(135deg, var(--gradient-purple), var(--neon-orange));">
+                        <div class="swiper-slide banner-slide">
                             <div class="banner-content">
                                 <h3>Новая коллекция</h3>
                                 <p>Стеклянная элегантность со скидкой 30%</p>
                                 <button class="btn-banner">Смотреть</button>
                             </div>
                         </div>
-                        <div class="swiper-slide banner-slide" style="background: linear-gradient(135deg, var(--dark-purple), var(--gradient-blue));">
+                        <div class="swiper-slide banner-slide">
                             <div class="banner-content">
                                 <h3>Бесплатная доставка</h3>
                                 <p>При заказе от 3000 ₽</p>
@@ -219,9 +216,7 @@
         <div class="overlay" id="overlay"></div>
     </div>
 
-    <!-- Подключение скриптов -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="js/tg-webapp.js"></script>
-    <script src="js/app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
