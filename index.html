@@ -3,62 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beauty Shop - Уходовая косметика</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>MarketGo | Премиальная уходовая косметика</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
 <body>
-    <div class="container">
+    <!-- Главный экран -->
+    <div id="app" class="app-container">
         <!-- Шапка -->
         <header class="header">
-            <div class="logo">
-                <h1>🌸 Beauty Shop</h1>
-                <p>Профессиональная косметика для ухода</p>
+            <div class="header-top">
+                <button class="menu-btn" id="menuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo">
+                    <h1 class="shop-title">Market<span>Go</span></h1>
+                    <div class="logo-glow"></div>
+                </div>
+                <button class="cart-btn" id="cartBtn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
             </div>
-            <div class="cart-icon" id="cartIcon">
-                🛒 <span id="cartCount">0</span>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Найти сыворотку, крем, масло...">
+                    <button class="search-clear" id="clearSearch">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
         </header>
 
-        <!-- Категории -->
-        <nav class="categories">
-            <button class="category active" data-category="all">Все товары</button>
-            <button class="category" data-category="hair">Для волос</button>
-            <button class="category" data-category="face">Для лица</button>
-            <button class="category" data-category="body">Для тела</button>
-            <button class="category" data-category="masks">Маски</button>
+        <!-- Боковое меню -->
+        <nav class="side-menu" id="sideMenu">
+            <div class="menu-header">
+                <h3>MarketGo</h3>
+                <button class="close-menu" id="closeMenu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="menu-list">
+                <li class="menu-item active" data-category="all">
+                    <i class="fas fa-home"></i>
+                    <span>Главная</span>
+                </li>
+                <li class="menu-item" data-category="face">
+                    <i class="fas fa-spa"></i>
+                    <span>Уход для лица</span>
+                </li>
+                <li class="menu-item" data-category="body">
+                    <i class="fas fa-hand-holding-water"></i>
+                    <span>Уход для тела</span>
+                </li>
+                <li class="menu-item" data-category="hair">
+                    <i class="fas fa-air-freshener"></i>
+                    <span>Уход для волос</span>
+                </li>
+                <li class="menu-item" data-category="sets">
+                    <i class="fas fa-gift"></i>
+                    <span>Подарочные наборы</span>
+                </li>
+                <li class="menu-item" data-category="new">
+                    <i class="fas fa-star"></i>
+                    <span>Новинки</span>
+                </li>
+                <li class="menu-item" data-category="sale">
+                    <i class="fas fa-tag"></i>
+                    <span>Акции</span>
+                </li>
+            </ul>
+            <div class="menu-footer">
+                <a href="#" class="menu-link">
+                    <i class="fas fa-user"></i>
+                    <span>Профиль</span>
+                </a>
+                <a href="#" class="menu-link">
+                    <i class="fas fa-heart"></i>
+                    <span>Избранное</span>
+                </a>
+                <a href="#" class="menu-link">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Помощь</span>
+                </a>
+            </div>
         </nav>
 
-        <!-- Поиск -->
-        <div class="search">
-            <input type="text" id="searchInput" placeholder="Поиск шампуней, масок, кремов...">
-        </div>
-
-        <!-- Товары -->
-        <div class="products" id="productsContainer">
-            <!-- Товары загружаются через JS -->
-        </div>
-
-        <!-- Корзина (скрыта по умолчанию) -->
-        <div class="cart-overlay" id="cartOverlay">
-            <div class="cart-modal">
-                <div class="cart-header">
-                    <h2>🛒 Ваша корзина</h2>
-                    <button class="close-cart" id="closeCart">✕</button>
-                </div>
-                <div class="cart-items" id="cartItems">
-                    <!-- Товары в корзине -->
-                </div>
-                <div class="cart-total">
-                    <p>Итого: <span id="totalPrice">0</span> ₽</p>
-                    <button class="checkout-btn" id="checkoutBtn">Оформить заказ</button>
+        <!-- Корзина -->
+        <div class="cart-sidebar" id="cartSidebar">
+            <div class="cart-header">
+                <h3><i class="fas fa-shopping-bag"></i> Корзина</h3>
+                <button class="close-cart" id="closeCart">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-content" id="cartContent">
+                <!-- Товары в корзине будут здесь -->
+                <div class="cart-empty">
+                    <i class="fas fa-shopping-bag"></i>
+                    <p>Ваша корзина пуста</p>
+                    <button class="btn-primary" id="continueShopping">Продолжить покупки</button>
                 </div>
             </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Итого:</span>
+                    <span class="total-price">0 ₽</span>
+                </div>
+                <button class="btn-checkout" disabled>Оформить заказ</button>
+            </div>
         </div>
+
+        <!-- Главный контент -->
+        <main class="main-content">
+            <!-- Баннеры -->
+            <section class="banner-section">
+                <div class="swiper banner-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide banner-slide" style="background: linear-gradient(135deg, var(--gradient-purple), var(--neon-orange));">
+                            <div class="banner-content">
+                                <h3>Новая коллекция</h3>
+                                <p>Стеклянная элегантность со скидкой 30%</p>
+                                <button class="btn-banner">Смотреть</button>
+                            </div>
+                        </div>
+                        <div class="swiper-slide banner-slide" style="background: linear-gradient(135deg, var(--dark-purple), var(--gradient-blue));">
+                            <div class="banner-content">
+                                <h3>Бесплатная доставка</h3>
+                                <p>При заказе от 3000 ₽</p>
+                                <button class="btn-banner">Подробнее</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </section>
+
+            <!-- Категории -->
+            <section class="categories-section">
+                <h2 class="section-title">Категории</h2>
+                <div class="categories-grid" id="categoriesGrid">
+                    <!-- Категории будут загружены через JS -->
+                </div>
+            </section>
+
+            <!-- Популярные товары -->
+            <section class="products-section">
+                <div class="section-header">
+                    <h2 class="section-title">Популярное</h2>
+                    <a href="#" class="view-all">Смотреть все</a>
+                </div>
+                <div class="products-grid" id="productsGrid">
+                    <!-- Товары будут загружены через JS -->
+                </div>
+            </section>
+
+            <!-- Особенности -->
+            <section class="features-section">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <h4>Эко-упаковка</h4>
+                    <p>Стекло и перерабатываемые материалы</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h4>Натуральный состав</h4>
+                    <p>Без парабенов и сульфатов</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h4>Быстрая доставка</h4>
+                    <p>По всей России за 1-3 дня</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Нижняя навигация -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>Главная</span>
+            </button>
+            <button class="nav-btn" data-page="catalog">
+                <i class="fas fa-th-large"></i>
+                <span>Каталог</span>
+            </button>
+            <button class="nav-btn" data-page="cart">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Корзина</span>
+            </button>
+            <button class="nav-btn" data-page="favorites">
+                <i class="fas fa-heart"></i>
+                <span>Избранное</span>
+            </button>
+            <button class="nav-btn" data-page="profile">
+                <i class="fas fa-user"></i>
+                <span>Профиль</span>
+            </button>
+        </nav>
+
+        <!-- Оверлей для меню/корзины -->
+        <div class="overlay" id="overlay"></div>
     </div>
 
-    <script src="products.js"></script>
-    <script src="cart.js"></script>
-    <script src="script.js"></script>
+    <!-- Подключение скриптов -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="js/tg-webapp.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

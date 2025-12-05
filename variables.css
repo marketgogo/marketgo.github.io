@@ -1,0 +1,58 @@
+:root {
+    /* Основные цвета */
+    --dark-purple: #0f051d;
+    --purple: #1a0b2e;
+    --light-purple: #2d1b4e;
+    --gradient-purple: #3d2a82;
+    --gradient-blue: #5a4fcf;
+    
+    /* Акцентные цвета */
+    --neon-orange: #ff6b35;
+    --neon-orange-light: #ff9e6d;
+    --neon-orange-glow: rgba(255, 107, 53, 0.3);
+    --neon-pink: #ff4d8d;
+    --neon-cyan: #00f3ff;
+    
+    /* Фон и текст */
+    --bg-primary: rgba(26, 11, 46, 0.95);
+    --bg-secondary: rgba(45, 27, 78, 0.7);
+    --bg-card: rgba(255, 255, 255, 0.05);
+    --text-primary: #ffffff;
+    --text-secondary: #c4b5fd;
+    --text-muted: #a78bfa;
+    
+    /* Эффекты */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-neon: 0 0 20px var(--neon-orange-glow);
+    
+    /* Анимации */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* Размеры */
+    --border-radius: 16px;
+    --border-radius-lg: 24px;
+    --border-radius-sm: 12px;
+    
+    /* Шрифты */
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: rgba(15, 5, 29, 0.98);
+        --bg-card: rgba(255, 255, 255, 0.03);
+    }
+}
+
+/* Переменные для анимаций */
+@property --gradient-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
