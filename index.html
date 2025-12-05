@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Shop - Уходовая косметика</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="logo">
+                <h1>🌸 Beauty Shop</h1>
+                <p>Профессиональная косметика для ухода</p>
+            </div>
+            <div class="cart-icon" id="cartIcon">
+                🛒 <span id="cartCount">0</span>
+            </div>
+        </header>
+
+        <!-- Категории -->
+        <nav class="categories">
+            <button class="category active" data-category="all">Все товары</button>
+            <button class="category" data-category="hair">Для волос</button>
+            <button class="category" data-category="face">Для лица</button>
+            <button class="category" data-category="body">Для тела</button>
+            <button class="category" data-category="masks">Маски</button>
+        </nav>
+
+        <!-- Поиск -->
+        <div class="search">
+            <input type="text" id="searchInput" placeholder="Поиск шампуней, масок, кремов...">
+        </div>
+
+        <!-- Товары -->
+        <div class="products" id="productsContainer">
+            <!-- Товары загружаются через JS -->
+        </div>
+
+        <!-- Корзина (скрыта по умолчанию) -->
+        <div class="cart-overlay" id="cartOverlay">
+            <div class="cart-modal">
+                <div class="cart-header">
+                    <h2>🛒 Ваша корзина</h2>
+                    <button class="close-cart" id="closeCart">✕</button>
+                </div>
+                <div class="cart-items" id="cartItems">
+                    <!-- Товары в корзине -->
+                </div>
+                <div class="cart-total">
+                    <p>Итого: <span id="totalPrice">0</span> ₽</p>
+                    <button class="checkout-btn" id="checkoutBtn">Оформить заказ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="products.js"></script>
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
