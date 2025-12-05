@@ -36,69 +36,49 @@ document.addEventListener('DOMContentLoaded', function() {
 function renderProducts(category = 'all', searchTerm = '') {
     const container = document.getElementById('productsContainer');
     
-    // Показываем индикатор загрузки
-    container.innerHTML = '<div class="loading"><div class="loading-spinner"></div>Загрузка...</div>';
+    // ... фильтрация товаров
     
-    // Имитация загрузки для плавности
-    setTimeout(() => {
-        let filteredProducts = category === 'all' 
-            ? products 
-            : products.filter(p => p.category === category);
-        
-        if (searchTerm) {
-            filteredProducts = filteredProducts.filter(p => 
-                p.name.toLowerCase().includes(searchTerm) ||
-                p.description.toLowerCase().includes(searchTerm)
-            );
-        }
-        
-        // Если нет товаров
-        if (filteredProducts.length === 0) {
-            container.innerHTML = `
-                <div class="empty-cart">
-                    <div class="empty-cart-icon">😔</div>
-                    <h3>Товары не найдены</h3>
-                    <p>Попробуйте изменить поиск или категорию</p>
-                </div>
-            `;
-            return;
-        }
-        
-        // Рендеринг товаров
-        container.innerHTML = filteredProducts.map(product => `
-            <div class="product-card">
-                <div class="product-image">
-                    ${product.image}
-                </div>
-                <div class="product-info">
-                    <div class="product-category">${getCategoryName(product.category)}</div>
-                    <h3 class="product-title">${product.name}</h3>
-                    <p class="product-description">${product.description}</p>
-                    <div class="product-volume">${product.volume}</div>
-                    <div class="product-price">${product.price.toLocaleString()} ₽</div>
-                    <div class="product-actions">
-                        <button class="add-to-cart" onclick="addToCart(${product.id})">
-                            В корзину
-                        </button>
-                    </div>
+    container.innerHTML = filteredProducts.map(product => `
+        <div class="product-card">
+            <div class="product-image">
+                ${getProductIcon(product)}
+            </div>
+            <div class="product-info">
+                <div class="product-category">${getCategoryName(product.category)}</div>
+                <h3 class="product-title">${product.name}</h3>
+                <p class="product-description">${product.description}</p>
+                <div class="product-volume">${product.volume}</div>
+                <div class="product-price">${product.price.toLocaleString()} ₽</div>
+                <div class="product-actions">
+                    <button class="add-to-cart" onclick="addToCart(${product.id})">
+                        В корзину
+                    </button>
                 </div>
             </div>
-        `).join('');
-        
-        // Анимация появления
-        const cards = container.querySelectorAll('.product-card');
-        cards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, index * 50);
-        });
-    }, 300);
+        </div>
+    `).join('');
 }
+
+// Функция для получения иконки
+function getProductIcon(product) {
+    const iconMap = {
+        'shampoo': '🧴',
+        'mask': '💆',
+        'cream': '🧴',
+        'serum': '💧',
+        'scrub': '☕',
+        'lotion': '🧴',
+        'clay': '🪴',
+        'patches': '👁️',
+        'conditioner': '✨',
+        'toner': '🌿',
+        'oil': '🫒',
+        'nightcream': '🌙'
+    };
+    
+    return iconMap[product.image] || product.image || '🌸';
+}
+
 
 // Остальные функции остаются такими же как раньше
 function getCategoryName(categoryId) {
