@@ -3,220 +3,1741 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MarketGo | Уходовая косметика</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>MarketGo</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #081947 0%, #0e2a7a 50%, #0a3d91 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Стиль стекла */
+        .glass {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 25, 100, 0.4);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .glass:hover {
+            box-shadow: 0 12px 48px rgba(0, 35, 135, 0.5);
+            transform: translateY(-4px);
+        }
+        
+        /* Шапка */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px;
+            margin-bottom: 22px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            background: linear-gradient(135deg, #2d7df6, #0d5bd9);
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 15px rgba(45, 125, 246, 0.5);
+        }
+        
+        .logo-text h1 {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff, #b3d4ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 0.5px;
+        }
+        
+        .logo-text p {
+            font-size: 13px;
+            opacity: 0.85;
+            margin-top: 3px;
+        }
+        
+        /* Поисковая строка */
+        .search-container {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(173, 216, 230, 0.7);
+            border-radius: 14px;
+            font-size: 16px;
+            color: #081947;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 50, 130, 0.3);
+        }
+        
+        .search-box:focus {
+            border-color: #87cefa;
+            box-shadow: 0 4px 25px rgba(135, 206, 250, 0.5);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        .search-box::placeholder {
+            color: #5a7ba8;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2d7df6;
+            font-size: 18px;
+            z-index: 2;
+        }
+        
+        /* Профиль пользователя */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px;
+            margin-bottom: 25px;
+        }
+        
+        .avatar {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-info h2 {
+            font-size: 21px;
+            margin-bottom: 5px;
+        }
+        
+        .user-info p {
+            opacity: 0.85;
+            font-size: 15px;
+        }
+        
+        /* Статистика */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.18);
+        }
+        
+        .stat-icon {
+            font-size: 26px;
+            margin-bottom: 10px;
+            color: #b3d4ff;
+        }
+        
+        .stat-value {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        /* Категории */
+        .categories {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 21px;
+            margin-bottom: 18px;
+            padding-left: 8px;
+            font-weight: 700;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 14px;
+        }
+        
+        .category-card {
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .category-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+            color: #b3d4ff;
+        }
+        
+        .category-name {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        /* Корзина */
+        .cart-container {
+            margin-bottom: 25px;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+        
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            gap: 16px;
+        }
+        
+        .cart-item-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(173, 216, 230, 0.3), rgba(135, 206, 250, 0.4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #fff;
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: #b3d4ff;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity {
+            font-size: 16px;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .remove-btn {
+            color: #ff6b6b;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .cart-total {
+            padding: 18px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 10px;
+        }
+        
+        .total-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #b3d4ff;
+            margin-top: 8px;
+        }
+        
+        .checkout-btn {
+            background: linear-gradient(90deg, #2d7df6, #0d5bd9);
+            border: none;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        .checkout-btn:hover {
+            background: linear-gradient(90deg, #0d5bd9, #2d7df6);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45, 125, 246, 0.5);
+        }
+        
+        /* Товары */
+        .products {
+            margin-bottom: 35px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 18px;
+        }
+        
+        .product-card {
+            padding: 0;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .product-image {
+            height: 130px;
+            background: linear-gradient(135deg, rgba(173, 216, 230, 0.25), rgba(135, 206, 250, 0.45));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 46px;
+            color: #fff;
+            position: relative;
+        }
+        
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #ff6b6b;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .favorite-btn.active {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+        
+        .favorite-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .product-details {
+            padding: 18px;
+        }
+        
+        .product-title {
+            font-size: 17px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .product-description {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            height: 36px;
+            overflow: hidden;
+        }
+        
+        .product-price {
+            color: #b3d4ff;
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+        
+        .buy-button {
+            background: linear-gradient(90deg, #2d7df6, #0d5bd9);
+            border: none;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 10px;
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .buy-button:hover {
+            background: linear-gradient(90deg, #0d5bd9, #2d7df6);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45, 125, 246, 0.5);
+        }
+        
+        .buy-button.added {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+        }
+        
+        /* Верхние кнопки действий */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-left: auto;
+        }
+        
+        .action-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 10px;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        /* Окно категории */
+        .category-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #081947 0%, #0e2a7a 50%, #0a3d91 100%);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.4s ease;
+        }
+        
+        .category-page.active {
+            transform: translateX(0);
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .category-title {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        /* Окно продукта */
+        .product-detail-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #081947 0%, #0e2a7a 50%, #0a3d91 100%);
+            z-index: 2000;
+            padding: 20px;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.4s ease;
+        }
+        
+        .product-detail-page.active {
+            transform: translateX(0);
+        }
+        
+        .product-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Слайдер фотографий */
+        .product-slider {
+            position: relative;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(173, 216, 230, 0.3), rgba(135, 206, 250, 0.4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slider-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-dot.active {
+            background: #2d7df6;
+            transform: scale(1.2);
+        }
+        
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 10;
+        }
+        
+        .slider-nav.prev {
+            left: 20px;
+        }
+        
+        .slider-nav.next {
+            right: 20px;
+        }
+        
+        /* Детали продукта */
+        .product-detail-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .product-detail-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #b3d4ff;
+        }
+        
+        .product-detail-price {
+            font-size: 32px;
+            font-weight: 800;
+            color: #2d7df6;
+            margin-bottom: 20px;
+        }
+        
+        .product-detail-description {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        
+        .product-specs {
+            margin-bottom: 25px;
+        }
+        
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .spec-label {
+            opacity: 0.8;
+        }
+        
+        .spec-value {
+            font-weight: 600;
+        }
+        
+        .detail-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .detail-favorite-btn {
+            background: rgba(255, 107, 107, 0.2);
+            border: 2px solid #ff6b6b;
+            color: #ff6b6b;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .detail-favorite-btn.active {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .detail-cart-btn {
+            flex: 1;
+            background: linear-gradient(90deg, #2d7df6, #0d5bd9);
+            border: none;
+            color: white;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .detail-cart-btn:hover {
+            background: linear-gradient(90deg, #0d5bd9, #2d7df6);
+            transform: translateY(-2px);
+        }
+        
+        .detail-cart-btn.added {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+        }
+        
+        /* Футер */
+        footer {
+            text-align: center;
+            padding: 18px;
+            opacity: 0.8;
+            font-size: 13px;
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        
+        /* Скрытые элементы */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            .logo-text h1 {
+                font-size: 22px;
+            }
+            
+            .user-info h2 {
+                font-size: 19px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                gap: 8px;
+            }
+            
+            .action-btn {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .product-slider {
+                height: 250px;
+            }
+            
+            .slide {
+                font-size: 80px;
+            }
+            
+            .detail-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div id="app" class="app-container">
-        <!-- Шапка -->
-        <header class="header">
-            <div class="header-top">
-                <button class="menu-btn" id="menuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="logo">
-                    <h1 class="shop-title">Market<span>Go</span></h1>
-                    <div class="logo-glow"></div>
+    <div class="container">
+        <!-- Шапка с логотипом -->
+        <header class="glass fade-in">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-store-alt"></i>
                 </div>
-                <button class="cart-btn" id="cartBtn">
-                    <i class="fas fa-shopping-bag"></i>
+                <div class="logo-text">
+                    <h1>MarketGo</h1>
+                    <p>Премиум косметика в Telegram</p>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn" id="cartBtn">
+                    <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" id="cartCount">0</span>
                 </button>
-            </div>
-            
-            <div class="search-container">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Найти сыворотку, крем, масло...">
-                    <button class="search-clear" id="clearSearch">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
+                <button class="action-btn" id="favoritesBtn">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <button class="action-btn" id="supportBtn">
+                    <i class="fas fa-headset"></i>
+                </button>
             </div>
         </header>
-
-        <!-- Боковое меню -->
-        <nav class="side-menu" id="sideMenu">
-            <div class="menu-header">
-                <h3>MarketGo</h3>
-                <button class="close-menu" id="closeMenu">
-                    <i class="fas fa-times"></i>
-                </button>
+        
+        <!-- Поисковая строка -->
+        <div class="search-container fade-in delay-1">
+            <div class="search-icon">
+                <i class="fas fa-search"></i>
             </div>
-            <ul class="menu-list">
-                <li class="menu-item active" data-category="all">
-                    <i class="fas fa-home"></i>
-                    <span>Главная</span>
-                </li>
-                <li class="menu-item" data-category="face">
-                    <i class="fas fa-spa"></i>
-                    <span>Уход для лица</span>
-                </li>
-                <li class="menu-item" data-category="body">
-                    <i class="fas fa-hand-holding-water"></i>
-                    <span>Уход для тела</span>
-                </li>
-                <li class="menu-item" data-category="hair">
-                    <i class="fas fa-air-freshener"></i>
-                    <span>Уход для волос</span>
-                </li>
-                <li class="menu-item" data-category="sets">
-                    <i class="fas fa-gift"></i>
-                    <span>Подарочные наборы</span>
-                </li>
-                <li class="menu-item" data-category="new">
-                    <i class="fas fa-star"></i>
-                    <span>Новинки</span>
-                </li>
-                <li class="menu-item" data-category="sale">
-                    <i class="fas fa-tag"></i>
-                    <span>Акции</span>
-                </li>
-            </ul>
-            <div class="menu-footer">
-                <a href="#" class="menu-link">
-                    <i class="fas fa-user"></i>
-                    <span>Профиль</span>
-                </a>
-                <a href="#" class="menu-link">
-                    <i class="fas fa-heart"></i>
-                    <span>Избранное</span>
-                </a>
-                <a href="#" class="menu-link">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Помощь</span>
-                </a>
+            <input type="text" class="search-box glass" placeholder="Ищите кремы, сыворотки, тоники..." id="searchInput">
+        </div>
+        
+        <!-- Профиль пользователя -->
+        <div class="user-profile glass fade-in delay-2">
+            <div class="avatar">
+                <img id="user-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Аватар">
             </div>
-        </nav>
-
-        <!-- Корзина -->
-        <div class="cart-sidebar" id="cartSidebar">
-            <div class="cart-header">
-                <h3><i class="fas fa-shopping-bag"></i> Корзина</h3>
-                <button class="close-cart" id="closeCart">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="cart-content" id="cartContent">
-                <div class="cart-empty">
-                    <i class="fas fa-shopping-bag"></i>
-                    <p>Ваша корзина пуста</p>
-                    <button class="btn-primary" id="continueShopping">Продолжить покупки</button>
-                </div>
-            </div>
-            <div class="cart-footer">
-                <div class="cart-total">
-                    <span>Итого:</span>
-                    <span class="total-price">0 ₽</span>
-                </div>
-                <button class="btn-checkout" disabled>Оформить заказ</button>
+            <div class="user-info">
+                <h2 id="user-name">Имя пользователя</h2>
+                <p id="user-username">@username</p>
             </div>
         </div>
-
-        <!-- Главный контент -->
-        <main class="main-content">
-            <!-- Баннеры -->
-            <section class="banner-section">
-                <div class="swiper banner-swiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide banner-slide">
-                            <div class="banner-content">
-                                <h3>Новая коллекция</h3>
-                                <p>Стеклянная элегантность со скидкой 30%</p>
-                                <button class="btn-banner">Смотреть</button>
-                            </div>
-                        </div>
-                        <div class="swiper-slide banner-slide">
-                            <div class="banner-content">
-                                <h3>Бесплатная доставка</h3>
-                                <p>При заказе от 3000 ₽</p>
-                                <button class="btn-banner">Подробнее</button>
-                            </div>
-                        </div>
+        
+        <!-- Статистика -->
+        <div class="stats fade-in delay-3">
+            <div class="stat-card glass" id="ordersBtn">
+                <div class="stat-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div class="stat-value" id="ordersCount">14</div>
+                <div class="stat-label">Заказы</div>
+            </div>
+            
+            <div class="stat-card glass" id="favoritesStatBtn">
+                <div class="stat-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="stat-value" id="favoritesCount">8</div>
+                <div class="stat-label">Избранное</div>
+            </div>
+            
+            <div class="stat-card glass" id="ratingBtn">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-value">4.9</div>
+                <div class="stat-label">Рейтинг</div>
+            </div>
+            
+            <div class="stat-card glass" id="supportStatBtn">
+                <div class="stat-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Поддержка</div>
+            </div>
+        </div>
+        
+        <!-- Корзина (изначально скрыта) -->
+        <div class="cart-container glass fade-in hidden" id="cartContainer">
+            <div class="cart-header">
+                <h2 class="section-title">Корзина</h2>
+                <button class="action-btn" id="closeCartBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Товары в корзине будут добавляться сюда -->
+            </div>
+            <div class="cart-total">
+                <div>Итого:</div>
+                <div class="total-price" id="cartTotal">0 ₽</div>
+                <button class="checkout-btn" id="checkoutBtn">
+                    Оформить заказ
+                </button>
+            </div>
+        </div>
+        
+        <!-- Категории -->
+        <div class="categories fade-in delay-4" id="categoriesSection">
+            <h2 class="section-title">Категории ухода</h2>
+            <div class="category-grid">
+                <div class="category-card glass" data-category="face">
+                    <div class="category-icon">
+                        <i class="fas fa-face-smile"></i>
                     </div>
-                    <div class="swiper-pagination"></div>
+                    <div class="category-name">Для лица</div>
                 </div>
-            </section>
-
-            <!-- Категории -->
-            <section class="categories-section">
-                <h2 class="section-title">Категории</h2>
-                <div class="categories-grid" id="categoriesGrid">
-                    <!-- Категории будут загружены через JS -->
-                </div>
-            </section>
-
-            <!-- Популярные товары -->
-            <section class="products-section">
-                <div class="section-header">
-                    <h2 class="section-title">Популярное</h2>
-                    <a href="#" class="view-all">Смотреть все</a>
-                </div>
-                <div class="products-grid" id="productsGrid">
-                    <!-- Товары будут загружены через JS -->
-                </div>
-            </section>
-
-            <!-- Особенности -->
-            <section class="features-section">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-recycle"></i>
+                
+                <div class="category-card glass" data-category="body">
+                    <div class="category-icon">
+                        <i class="fas fa-hand-sparkles"></i>
                     </div>
-                    <h4>Эко-упаковка</h4>
-                    <p>Стекло и перерабатываемые материалы</p>
+                    <div class="category-name">Для тела</div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-leaf"></i>
+                
+                <div class="category-card glass" data-category="eyes">
+                    <div class="category-icon">
+                        <i class="fas fa-eye"></i>
                     </div>
-                    <h4>Натуральный состав</h4>
-                    <p>Без парабенов и сульфатов</p>
+                    <div class="category-name">Для глаз</div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shipping-fast"></i>
+                
+                <div class="category-card glass" data-category="lips">
+                    <div class="category-icon">
+                        <i class="fas fa-lips"></i>
                     </div>
-                    <h4>Быстрая доставка</h4>
-                    <p>По всей России за 1-3 дня</p>
+                    <div class="category-name">Для губ</div>
                 </div>
-            </section>
-        </main>
-
-        <!-- Нижняя навигация -->
-        <nav class="bottom-nav">
-            <button class="nav-btn active" data-page="home">
-                <i class="fas fa-home"></i>
-                <span>Главная</span>
+                
+                <div class="category-card glass" data-category="sprays">
+                    <div class="category-icon">
+                        <i class="fas fa-spray-can-sparkles"></i>
+                    </div>
+                    <div class="category-name">Спреи</div>
+                </div>
+                
+                <div class="category-card glass" data-category="serums">
+                    <div class="category-icon">
+                        <i class="fas fa-prescription-bottle"></i>
+                    </div>
+                    <div class="category-name">Сыворотки</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Товары -->
+        <div class="products fade-in delay-5" id="productsSection">
+            <h2 class="section-title">Популярные средства</h2>
+            <div class="product-grid" id="productsGrid">
+                <!-- Товары будут добавляться сюда -->
+            </div>
+        </div>
+        
+        <!-- Дополнительные карточки товаров -->
+        <div class="products fade-in delay-5">
+            <h2 class="section-title">Новинки</h2>
+            <div class="product-grid" id="newProductsGrid">
+                <!-- Новые товары будут добавляться сюда -->
+            </div>
+        </div>
+        
+        <!-- Футер -->
+        <footer class="fade-in delay-6" style="animation-delay: 0.6s;">
+            <p>© 2024 MarketGo. Все права защищены.</p>
+            <p>Сделано с <i class="fas fa-heart" style="color: #ff4d89;"></i> для вашей красоты</p>
+        </footer>
+    </div>
+    
+    <!-- Окно категорий -->
+    <div class="category-page" id="categoryPage">
+        <div class="category-header glass">
+            <div class="category-title" id="categoryPageTitle">
+                <i class="fas fa-face-smile" id="categoryPageIcon"></i>
+                <span id="categoryPageName">Для лица</span>
+            </div>
+            <button class="close-btn" id="closeCategoryBtn">
+                <i class="fas fa-times"></i>
             </button>
-            <button class="nav-btn" data-page="catalog">
-                <i class="fas fa-th-large"></i>
-                <span>Каталог</span>
+        </div>
+        
+        <div class="products">
+            <div class="product-grid" id="categoryProductsGrid">
+                <!-- Товары категории будут добавляться сюда -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Окно деталей товара -->
+    <div class="product-detail-page" id="productDetailPage">
+        <div class="product-detail-header glass">
+            <h2 class="section-title">Детали товара</h2>
+            <button class="close-btn" id="closeProductBtn">
+                <i class="fas fa-times"></i>
             </button>
-            <button class="nav-btn" data-page="cart">
-                <i class="fas fa-shopping-bag"></i>
-                <span>Корзина</span>
-            </button>
-            <button class="nav-btn" data-page="favorites">
-                <i class="fas fa-heart"></i>
-                <span>Избранное</span>
-            </button>
-            <button class="nav-btn" data-page="profile">
-                <i class="fas fa-user"></i>
-                <span>Профиль</span>
-            </button>
-        </nav>
-
-        <!-- Оверлей для меню/корзины -->
-        <div class="overlay" id="overlay"></div>
+        </div>
+        
+        <div class="product-slider glass" id="productSlider">
+            <div class="slider-nav prev" id="prevSlide">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="slider-nav next" id="nextSlide">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="slider-controls" id="sliderDots">
+                <!-- Слайдер точки будут добавляться здесь -->
+            </div>
+        </div>
+        
+        <div class="product-detail-info glass">
+            <h1 class="product-detail-title" id="detailTitle"></h1>
+            <div class="product-detail-price" id="detailPrice"></div>
+            
+            <div class="product-detail-description" id="detailDescription"></div>
+            
+            <div class="product-specs">
+                <div class="spec-item">
+                    <span class="spec-label">Категория:</span>
+                    <span class="spec-value" id="detailCategory"></span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Объем:</span>
+                    <span class="spec-value" id="detailVolume"></span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Тип кожи:</span>
+                    <span class="spec-value" id="detailSkinType"></span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Состав:</span>
+                    <span class="spec-value" id="detailComposition"></span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Страна:</span>
+                    <span class="spec-value" id="detailCountry"></span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Срок годности:</span>
+                    <span class="spec-value" id="detailExpiry"></span>
+                </div>
+            </div>
+            
+            <div class="detail-actions">
+                <button class="detail-favorite-btn" id="detailFavoriteBtn">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <button class="detail-cart-btn" id="detailCartBtn">
+                    В корзину
+                </button>
+            </div>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        
+        // Расширяем на весь экран
+        tg.expand();
+        
+        // Получаем данные пользователя
+        const user = tg.initDataUnsafe.user;
+        
+        // Устанавливаем данные пользователя
+        if (user) {
+            document.getElementById('user-name').textContent = user.first_name || 'Пользователь';
+            document.getElementById('user-username').textContent = user.username ? '@' + user.username : '@username';
+            
+            // Устанавливаем аватар пользователя
+            if (user.photo_url) {
+                document.getElementById('user-avatar').src = user.photo_url;
+            }
+        }
+        
+        // Изменяем цвет фона Telegram
+        tg.setHeaderColor('#081947');
+        tg.setBackgroundColor('#081947');
+        
+        // Данные категорий с иконками
+        const categories = {
+            'face': { name: 'Для лица', icon: 'fas fa-face-smile', color: 'rgba(255, 182, 193, 0.3), rgba(255, 105, 180, 0.4)' },
+            'body': { name: 'Для тела', icon: 'fas fa-hand-sparkles', color: 'rgba(255, 228, 181, 0.3), rgba(255, 218, 185, 0.4)' },
+            'eyes': { name: 'Для глаз', icon: 'fas fa-eye', color: 'rgba(216, 191, 216, 0.3), rgba(221, 160, 221, 0.4)' },
+            'lips': { name: 'Для губ', icon: 'fas fa-lips', color: 'rgba(255, 182, 193, 0.3), rgba(255, 105, 180, 0.4)' },
+            'sprays': { name: 'Спреи', icon: 'fas fa-spray-can-sparkles', color: 'rgba(221, 160, 221, 0.3), rgba(218, 112, 214, 0.4)' },
+            'serums': { name: 'Сыворотки', icon: 'fas fa-prescription-bottle', color: 'rgba(176, 224, 230, 0.3), rgba(135, 206, 250, 0.4)' }
+        };
+        
+        // Генерация данных товаров (20 товаров для каждой категории)
+        function generateProducts() {
+            const products = [];
+            const productNames = {
+                'face': [
+                    'Увлажняющий крем La Roche-Posay', 'Очищающий гель для умывания', 'Тоник с розовой водой',
+                    'Ночная маска с алоэ вера', 'Солнцезащитный крем SPF 50+', 'Пилинг для лица',
+                    'Маска с черной глиной', 'Крем для век с пептидами', 'Сыворотка с гиалуроновой кислотой',
+                    'Гель против акне', 'Крем для чувствительной кожи', 'Мицеллярная вода',
+                    'Скраб для лица', 'Бальзам после бритья', 'Маска-пленка',
+                    'Патчи под глаза', 'Тоник для сужения пор', 'Крем с ретинолом',
+                    'Сыворотка с витамином C', 'Масло для лица'
+                ],
+                'body': [
+                    'Масло для тела с жожоба', 'Скраб для тела с морской солью', 'Увлажняющий лосьон для тела',
+                    'Масло для массажа', 'Крем для рук', 'Молочко для тела',
+                    'Гель для душа', 'Скраб с кофе', 'Крем для ног',
+                    'Масло для ванны', 'Спрей для тела', 'Крем от растяжек',
+                    'Пилинг для тела', 'Масло для кутикулы', 'Крем для локтей',
+                    'Гель для контура тела', 'Масло для сухой кожи', 'Крем с мочевиной',
+                    'Сыворотка для тела', 'Бальзам для губ'
+                ],
+                'eyes': [
+                    'Крем для век с пептидами', 'Патчи под глаза', 'Гель для век',
+                    'Сыворотка для области глаз', 'Крем от темных кругов', 'Ролик для глаз',
+                    'Маска для век', 'Крем для ресниц', 'Гель для бровей',
+                    'Карандаш для век', 'Тени для век', 'Подводка для глаз',
+                    'Тушь для ресниц', 'Корректор для век', 'Праймер для век',
+                    'Крем для контура глаз', 'Сыворотка для роста ресниц', 'Гель от мешков под глазами',
+                    'Крем от морщин вокруг глаз', 'Охлаждающий патч'
+                ],
+                'lips': [
+                    'Бальзам для губ с гиалуроновой кислотой', 'Блеск для губ', 'Помада',
+                    'Карандаш для губ', 'Скраб для губ', 'Масло для губ',
+                    'Крем для губ', 'Тинт для губ', 'Бальзам с SPF',
+                    'Помада жидкая', 'Глосс', 'Бальзам лечебный',
+                    'Масло для кутикулы губ', 'Крем от герпеса', 'Пилинг для губ',
+                    'Бальзам с витамином E', 'Помада матовая', 'Блеск объемный',
+                    'Бальзам с ментолом', 'Крем для контура губ'
+                ],
+                'sprays': [
+                    'Термальная вода Avene', 'Спрей для лица', 'Освежающий спрей',
+                    'Спрей с гиалуроновой кислотой', 'Спрей для макияжа', 'Спрей для тела',
+                    'Ароматический спрей', 'Спрей от солнца', 'Спрей для волос',
+                    'Спрей для постельного белья', 'Спрей для обуви', 'Спрей антибактериальный',
+                    'Спрей с витаминами', 'Спрей освежающий', 'Спрей увлажняющий',
+                    'Спрей тонизирующий', 'Спрей для фиксации макияжа', 'Спрей для помещений',
+                    'Спрей с эфирными маслами', 'Спрей для белья'
+                ],
+                'serums': [
+                    'Гиалуроновая сыворотка The Ordinary', 'Сыворотка с витамином C',
+                    'Сыворотка с ретинолом', 'Сыворотка с ниацинамидом', 'Сыворотка для сияния',
+                    'Сыворотка против морщин', 'Сыворотка для очищения пор', 'Сыворотка для упругости',
+                    'Сыворотка с пептидами', 'Сыворотка для осветления', 'Сыворотка для увлажнения',
+                    'Сыворотка для восстановления', 'Сыворотка для матовости', 'Сыворотка с коллагеном',
+                    'Сыворотка с эластином', 'Сыворотка для чувствительной кожи', 'Сыворотка для жирной кожи',
+                    'Сыворотка для сухой кожи', 'Сыворотка комбинированная', 'Сыворотка универсальная'
+                ]
+            };
+            
+            const icons = ['🧴', '💧', '✨', '🌙', '☀️', '💦', '🌹', '👁️', '💋', '🛁', '🧼', '🧂', '🌸', '🌿', '💎', '🌟', '❄️', '🔥', '💫', '🌈'];
+            const volumes = ['30 мл', '50 мл', '100 мл', '150 мл', '200 мл', '250 мл', '300 мл', '500 мл'];
+            const skinTypes = ['Все типы', 'Чувствительная', 'Жирная', 'Сухая', 'Комбинированная', 'Нормальная'];
+            const countries = ['Франция', 'Корея', 'Япония', 'США', 'Германия', 'Швейцария'];
+            const compositions = ['Гиалуроновая кислота', 'Витамин C', 'Ретинол', 'Ниацинамид', 'Пептиды', 'Коллаген', 'Экстракт алоэ', 'Масло жожоба'];
+            
+            let id = 1;
+            for (const [category, names] of Object.entries(productNames)) {
+                for (let i = 0; i < 20; i++) {
+                    const price = Math.floor(Math.random() * 5000) + 500;
+                    const volume = volumes[Math.floor(Math.random() * volumes.length)];
+                    const skinType = skinTypes[Math.floor(Math.random() * skinTypes.length)];
+                    const country = countries[Math.floor(Math.random() * countries.length)];
+                    const composition = compositions[Math.floor(Math.random() * compositions.length)];
+                    const expiry = `${12 + Math.floor(Math.random() * 24)} месяцев`;
+                    
+                    products.push({
+                        id: id++,
+                        title: names[i],
+                        description: `Высококачественное средство для ухода за кожей. ${category === 'face' ? 'Идеально подходит для ежедневного использования.' : 'Эффективный и безопасный продукт.'}`,
+                        price: price,
+                        category: category,
+                        icon: icons[i % icons.length],
+                        color: categories[category].color,
+                        isNew: i < 5, // Первые 5 товаров в каждой категории - новинки
+                        volume: volume,
+                        skinType: skinType,
+                        country: country,
+                        composition: composition,
+                        expiry: expiry,
+                        images: [
+                            {icon: icons[i % icons.length], color: categories[category].color},
+                            {icon: '🌟', color: 'rgba(255, 215, 0, 0.3), rgba(255, 255, 0, 0.4)'},
+                            {icon: '💎', color: 'rgba(135, 206, 250, 0.3), rgba(70, 130, 180, 0.4)'},
+                            {icon: '🌿', color: 'rgba(144, 238, 144, 0.3), rgba(60, 179, 113, 0.4)'}
+                        ]
+                    });
+                }
+            }
+            
+            return products;
+        }
+        
+        const allProducts = generateProducts();
+        
+        // Корзина
+        let cart = JSON.parse(localStorage.getItem('marketgo_cart')) || [];
+        let favorites = JSON.parse(localStorage.getItem('marketgo_favorites')) || [];
+        let currentCategory = '';
+        let currentProduct = null;
+        let currentSlide = 0;
+
+        // Инициализация приложения
+        function initApp() {
+            renderProducts();
+            renderCart();
+            updateCartCount();
+            updateFavoritesCount();
+            setupCategoryListeners();
+        }
+
+        // Рендеринг товаров на главной
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            const newProductsGrid = document.getElementById('newProductsGrid');
+            
+            // Получаем 6 популярных товаров (первые из каждой категории)
+            const popularProducts = [];
+            const categoriesUsed = new Set();
+            
+            allProducts.forEach(product => {
+                if (popularProducts.length < 6 && !categoriesUsed.has(product.category)) {
+                    popularProducts.push(product);
+                    categoriesUsed.add(product.category);
+                }
+            });
+            
+            // Получаем новинки
+            const newProducts = allProducts.filter(p => p.isNew).slice(0, 6);
+            
+            // Рендерим популярные товары
+            productsGrid.innerHTML = popularProducts.map(product => createProductCard(product)).join('');
+            
+            // Рендерим новинки
+            newProductsGrid.innerHTML = newProducts.map(product => createProductCard(product)).join('');
+        }
+
+        // Создание карточки товара
+        function createProductCard(product) {
+            const isInCart = cart.some(item => item.id === product.id);
+            const isFavorite = favorites.includes(product.id);
+            
+            return `
+                <div class="product-card glass" data-id="${product.id}">
+                    <div class="product-image" style="background: linear-gradient(135deg, ${product.color})">
+                        ${product.icon}
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite(${product.id}, event)">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="product-details" onclick="openProductDetail(${product.id})">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">${product.price.toLocaleString()} ₽</div>
+                        <button class="buy-button ${isInCart ? 'added' : ''}" onclick="addToCart(${product.id}, event)">
+                            ${isInCart ? '✓ В корзине' : 'В корзину'}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Настройка слушателей для категорий
+        function setupCategoryListeners() {
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    openCategoryPage(category);
+                });
+            });
+        }
+
+        // Открытие страницы категории
+        function openCategoryPage(category) {
+            currentCategory = category;
+            const categoryData = categories[category];
+            
+            // Устанавливаем заголовок
+            document.getElementById('categoryPageName').textContent = categoryData.name;
+            document.getElementById('categoryPageIcon').className = categoryData.icon;
+            
+            // Получаем товары категории
+            const categoryProducts = allProducts.filter(p => p.category === category);
+            
+            // Рендерим товары
+            const categoryGrid = document.getElementById('categoryProductsGrid');
+            categoryGrid.innerHTML = categoryProducts.map(product => createProductCard(product)).join('');
+            
+            // Показываем страницу категории
+            document.getElementById('categoryPage').classList.add('active');
+            
+            // Скрываем основной контент
+            document.querySelector('.container').style.display = 'none';
+        }
+
+        // Закрытие страницы категории
+        document.getElementById('closeCategoryBtn').addEventListener('click', function() {
+            document.getElementById('categoryPage').classList.remove('active');
+            document.querySelector('.container').style.display = 'block';
+        });
+
+        // Открытие детальной страницы товара
+        function openProductDetail(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            currentProduct = product;
+            currentSlide = 0;
+            
+            // Устанавливаем данные товара
+            document.getElementById('detailTitle').textContent = product.title;
+            document.getElementById('detailPrice').textContent = product.price.toLocaleString() + ' ₽';
+            document.getElementById('detailDescription').textContent = product.description;
+            document.getElementById('detailCategory').textContent = categories[product.category].name;
+            document.getElementById('detailVolume').textContent = product.volume;
+            document.getElementById('detailSkinType').textContent = product.skinType;
+            document.getElementById('detailComposition').textContent = product.composition;
+            document.getElementById('detailCountry').textContent = product.country;
+            document.getElementById('detailExpiry').textContent = product.expiry;
+            
+            // Настраиваем кнопку избранного
+            const isFavorite = favorites.includes(product.id);
+            const favoriteBtn = document.getElementById('detailFavoriteBtn');
+            favoriteBtn.className = `detail-favorite-btn ${isFavorite ? 'active' : ''}`;
+            
+            // Настраиваем кнопку корзины
+            const isInCart = cart.some(item => item.id === product.id);
+            const cartBtn = document.getElementById('detailCartBtn');
+            cartBtn.textContent = isInCart ? '✓ В корзине' : 'В корзину';
+            cartBtn.className = `detail-cart-btn ${isInCart ? 'added' : ''}`;
+            
+            // Настраиваем слайдер
+            setupProductSlider(product.images);
+            
+            // Показываем страницу товара
+            document.getElementById('productDetailPage').classList.add('active');
+            
+            // Скрываем основной контент
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('categoryPage').style.display = 'none';
+        }
+
+        // Настройка слайдера товара
+        function setupProductSlider(images) {
+            const slider = document.getElementById('productSlider');
+            const dotsContainer = document.getElementById('sliderDots');
+            
+            // Очищаем слайдер
+            slider.innerHTML = `
+                <div class="slider-nav prev" id="prevSlide">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="slider-nav next" id="nextSlide">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="slider-controls" id="sliderDots">
+                    ${images.map((_, index) => 
+                        `<div class="slider-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`
+                    ).join('')}
+                </div>
+            `;
+            
+            // Добавляем слайды
+            images.forEach((image, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === 0 ? 'active' : ''}`;
+                slide.style.background = `linear-gradient(135deg, ${image.color})`;
+                slide.innerHTML = image.icon;
+                slider.prepend(slide);
+            });
+            
+            // Настраиваем слушатели
+            setupSliderControls(images.length);
+        }
+
+        // Настройка контролов слайдера
+        function setupSliderControls(totalSlides) {
+            // Следующий слайд
+            document.getElementById('nextSlide').addEventListener('click', () => {
+                changeSlide(1);
+            });
+            
+            // Предыдущий слайд
+            document.getElementById('prevSlide').addEventListener('click', () => {
+                changeSlide(-1);
+            });
+            
+            // Точки слайдера
+            document.querySelectorAll('.slider-dot').forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    goToSlide(index);
+                });
+            });
+        }
+
+        // Смена слайда
+        function changeSlide(direction) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            
+            // Обновляем текущий слайд
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            
+            // Обновляем отображение
+            updateSliderDisplay(slides, dots);
+        }
+
+        // Переход к конкретному слайду
+        function goToSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            
+            currentSlide = index;
+            updateSliderDisplay(slides, dots);
+        }
+
+        // Обновление отображения слайдера
+        function updateSliderDisplay(slides, dots) {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Закрытие детальной страницы товара
+        document.getElementById('closeProductBtn').addEventListener('click', function() {
+            document.getElementById('productDetailPage').classList.remove('active');
+            
+            // Показываем предыдущую страницу
+            if (currentCategory) {
+                document.getElementById('categoryPage').style.display = 'block';
+                document.querySelector('.container').style.display = 'none';
+            } else {
+                document.querySelector('.container').style.display = 'block';
+            }
+        });
+
+        // Добавление в корзину
+        function addToCart(productId, event) {
+            if (event) event.stopPropagation();
+            
+            const product = allProducts.find(p => p.id === productId);
+            const button = event ? event.target : document.getElementById('detailCartBtn');
+            
+            // Проверяем, есть ли уже товар в корзине
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+            
+            // Сохраняем в localStorage
+            localStorage.setItem('marketgo_cart', JSON.stringify(cart));
+            
+            // Обновляем UI
+            updateCartCount();
+            renderCart();
+            
+            // Анимация кнопки
+            if (button) {
+                button.textContent = '✓ В корзине';
+                button.classList.add('added');
+                button.disabled = true;
+                
+                setTimeout(() => {
+                    button.disabled = false;
+                }, 500);
+            }
+            
+            // Уведомление
+            tg.showAlert(`"${product.title}" добавлен в корзину!`);
+        }
+
+        // Переключение избранного
+        function toggleFavorite(productId, event) {
+            if (event) event.stopPropagation();
+            
+            const index = favorites.indexOf(productId);
+            const button = event ? event.target.closest('.favorite-btn') : document.getElementById('detailFavoriteBtn');
+            
+            if (index > -1) {
+                // Удаляем из избранного
+                favorites.splice(index, 1);
+                if (button) button.classList.remove('active');
+            } else {
+                // Добавляем в избранное
+                favorites.push(productId);
+                if (button) button.classList.add('active');
+            }
+            
+            // Сохраняем в localStorage
+            localStorage.setItem('marketgo_favorites', JSON.stringify(favorites));
+            updateFavoritesCount();
+            
+            // Уведомление
+            const product = allProducts.find(p => p.id === productId);
+            const action = index > -1 ? 'удален из' : 'добавлен в';
+            tg.showAlert(`"${product.title}" ${action} избранное!`);
+        }
+
+        // Рендеринг корзины
+        function renderCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="cart-item">
+                        <div style="text-align: center; width: 100%; padding: 40px;">
+                            <i class="fas fa-shopping-cart" style="font-size: 48px; opacity: 0.5; margin-bottom: 20px;"></i>
+                            <p>Корзина пуста</p>
+                        </div>
+                    </div>
+                `;
+                cartTotal.textContent = '0 ₽';
+                return;
+            }
+            
+            let total = 0;
+            cartItems.innerHTML = cart.map(item => {
+                total += item.price * item.quantity;
+                return `
+                    <div class="cart-item glass">
+                        <div class="cart-item-image" style="background: linear-gradient(135deg, ${item.color})">
+                            ${item.icon}
+                        </div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.title}</div>
+                            <div class="cart-item-price">${(item.price * item.quantity).toLocaleString()} ₽</div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            <button class="remove-btn" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            cartTotal.textContent = total.toLocaleString() + ' ₽';
+        }
+
+        // Обновление количества товара в корзине
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(item => item.id !== productId);
+                }
+                localStorage.setItem('marketgo_cart', JSON.stringify(cart));
+                updateCartCount();
+                renderCart();
+            }
+        }
+
+        // Удаление из корзины
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('marketgo_cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCart();
+            
+            // Обновляем кнопки на карточках товаров
+            document.querySelectorAll(`[data-id="${productId}"] .buy-button`).forEach(btn => {
+                btn.textContent = 'В корзину';
+                btn.classList.remove('added');
+            });
+        }
+
+        // Обновление счетчика корзины
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems > 9 ? '9+' : totalItems;
+        }
+
+        // Обновление счетчика избранного
+        function updateFavoritesCount() {
+            document.getElementById('favoritesCount').textContent = favorites.length;
+        }
+
+        // Обработчики для детальной страницы
+        document.getElementById('detailFavoriteBtn').addEventListener('click', function() {
+            if (currentProduct) {
+                toggleFavorite(currentProduct.id);
+            }
+        });
+
+        document.getElementById('detailCartBtn').addEventListener('click', function() {
+            if (currentProduct) {
+                addToCart(currentProduct.id);
+            }
+        });
+
+        // Переключение отображения корзины
+        document.getElementById('cartBtn').addEventListener('click', () => {
+            const cartContainer = document.getElementById('cartContainer');
+            const categoriesSection = document.getElementById('categoriesSection');
+            const productsSection = document.getElementById('productsSection');
+            
+            cartContainer.classList.toggle('hidden');
+            categoriesSection.classList.toggle('hidden');
+            productsSection.classList.toggle('hidden');
+        });
+
+        document.getElementById('closeCartBtn').addEventListener('click', () => {
+            const cartContainer = document.getElementById('cartContainer');
+            const categoriesSection = document.getElementById('categoriesSection');
+            const productsSection = document.getElementById('productsSection');
+            
+            cartContainer.classList.add('hidden');
+            categoriesSection.classList.remove('hidden');
+            productsSection.classList.remove('hidden');
+        });
+
+        // Оформление заказа
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            if (cart.length === 0) {
+                tg.showAlert('Корзина пуста!');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            tg.showPopup({
+                title: 'Оформление заказа',
+                message: `Подтвердите заказ на сумму ${total.toLocaleString()} ₽`,
+                buttons: [
+                    {type: 'ok', text: 'Подтвердить'},
+                    {type: 'cancel', text: 'Отмена'}
+                ]
+            });
+        });
+
+        // Обработчики для кнопок действий
+        document.getElementById('supportBtn').addEventListener('click', () => {
+            tg.showAlert('Служба поддержки\n📞 +7 (999) 123-45-67\n✉️ support@marketgo.ru\n⏰ 24/7');
+        });
+
+        document.getElementById('favoritesBtn').addEventListener('click', () => {
+            tg.showAlert(`В избранном: ${favorites.length} товаров\n\nСкоро здесь появится список избранных товаров!`);
+        });
+
+        document.getElementById('ordersBtn').addEventListener('click', () => {
+            const ordersCount = document.getElementById('ordersCount').textContent;
+            tg.showAlert(`У вас ${ordersCount} заказов\n\nСкоро здесь появится история заказов!`);
+        });
+
+        document.getElementById('favoritesStatBtn').addEventListener('click', () => {
+            tg.showAlert(`Избранные товары: ${favorites.length}\n\nДобавляйте товары в избранное, нажав на сердечко!`);
+        });
+
+        document.getElementById('ratingBtn').addEventListener('click', () => {
+            tg.showAlert('Ваш рейтинг: 4.9 ★\n\nСпасибо за ваши оценки!');
+        });
+
+        document.getElementById('supportStatBtn').addEventListener('click', () => {
+            tg.showAlert('Поддержка 24/7\n\nМы всегда готовы помочь!\nНапишите нам или позвоните.');
+        });
+
+        // Поиск товаров
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            if (searchTerm.length >= 2) {
+                // В реальном приложении здесь будет поиск товаров
+                console.log('Поиск:', searchTerm);
+            }
+        });
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim() !== '') {
+                tg.showAlert(`Поиск: "${this.value}"\n\nРезультаты появятся в следующем обновлении!`);
+            }
+        });
+
+        // Анимация появления элементов при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(el => {
+                el.style.opacity = '0';
+            });
+            
+            setTimeout(() => {
+                elements.forEach(el => {
+                    el.style.opacity = '1';
+                });
+            }, 100);
+            
+            // Инициализация приложения
+            initApp();
+        });
+
+        // Имитация уведомления при загрузке
+        setTimeout(() => {
+            if (Math.random() > 0.5) {
+                tg.showAlert('🎉 Добро пожаловать в MarketGo!\n\nПолучите скидку 10% на первый заказ!');
+            }
+        }, 1500);
+    </script>
 </body>
 </html>
